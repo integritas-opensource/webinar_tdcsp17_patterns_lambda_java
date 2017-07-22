@@ -8,7 +8,8 @@ public class Client {
 	public static void main(String[] args) {
 		ExpediaDelegate expedia = new ExpediaDelegate();
 		Function<SearchParameters, Boolean> searchFunction = 
-				FlightSearch.makeSearchAndBookCheapestFlight(expedia::searchFlights, expedia::bookFlight);
+				FlightSearch.makeSearchAndBookCheapestFlight(
+						FlightSearch.FlightSearchProvider.EXPEDIA);
 		searchFunction.apply(new SearchParameters("RIO", "HCL", new Date()));
 
 	}

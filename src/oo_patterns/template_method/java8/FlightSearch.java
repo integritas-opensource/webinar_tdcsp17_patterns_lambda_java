@@ -11,16 +11,30 @@ public abstract class FlightSearch {
 
 	public static enum FlightSearchProvider 
 		{ 
-		EXPEDIA, 
-		SKYSCANNER 
-		};
+		EXPEDIA(ExpediaDelegate::searchFlights,ExpediaDelegate::bookFlight), 
+		SKYSCANNER(SkyScannerDelegate::searchFlights,SkyScannerDelegate::bookFlight);
+		
+		private Function<SearchParameters,List<SearchResult> > searchFunction;
+		private Function<SearchResult,Boolean> bookFunction;
+		
+		private FlightSearchProvider(Function<SearchParameters,
+				List<SearchResult>> searchFunction,
+				Function<SearchResult, Boolean> bookFunction) {
+			this.searchFunction = searchFunction;
+			this.bookFunction = bookFunction;
+		}
+		
+	};
 	
-	public static Function<SearchParameters, Boolean> makeSearchAndBookCheapestFlight(FlightSearchProvider provider) {
-		return null;
+	public static Function<SearchParameters, Boolean> 
+	makeSearchAndBookCheapestFlight(FlightSearchProvider provider) {
+		return makeSearchAndBookCheapestFlight(provider.searchFunction, 
+				provider.bookFunction);
 	}
 	
 	public static Function<SearchParameters, Boolean> 
-		makeSearchAndBookCheapestFlight(Function<SearchParameters,List<SearchResult> > searchFunction,
+		makeSearchAndBookCheapestFlight(Function<SearchParameters,
+				List<SearchResult> > searchFunction,
 				Function<SearchResult,Boolean> bookFunction) {
 		return (sp) -> {
 			List<SearchResult> searchResults = searchFunction.apply(sp);

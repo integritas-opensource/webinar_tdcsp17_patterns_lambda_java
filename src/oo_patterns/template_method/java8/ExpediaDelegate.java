@@ -10,7 +10,7 @@ import oo_patterns.template_method.java8.SearchParameters;
 
 public class ExpediaDelegate {
 
-	public List<SearchResult> searchFlights(SearchParameters params) {
+	public static List<SearchResult> searchFlights(SearchParameters params) {
 		System.out.println("searching flights on Expedia");
 		List<SearchResult> results = new ArrayList<>();
 		try {
@@ -23,7 +23,7 @@ public class ExpediaDelegate {
 		return results;
 	}
 
-	public boolean bookFlight(SearchResult result) {
+	public static boolean bookFlight(SearchResult result) {
 		System.out.println("book flight on Expedia");
 		return true;
 	}
